@@ -1,11 +1,17 @@
 import tweepy
 import json
 import os
+from Tweet import Tweet
+from DatabaseAPI import DatabaseAPI
 
 working_directory = os.getcwd()
 
 settings_path = os.path.join(working_directory, 'TwitterAPI\settings.json')
-APP_KEY, APP_SECRET, TOKEN, TOKEN_SECRET = [str() for n in range(4)]
+
+APP_KEY: str()
+APP_SECRET: str()
+TOKEN: str()
+TOKEN_SECRET: str()
 
 with open(settings_path) as settings:
   settings = json.load(settings)
@@ -21,5 +27,9 @@ auth.set_access_token(TOKEN, TOKEN_SECRET)
 api = tweepy.API(auth)
 
 public_tweets = api.home_timeline()
+
 for tweet in public_tweets:
-    print(tweet.text)
+    tweet = Tweet(tweet)
+    tweet.print_tweet_data()
+
+DatabaseAPI(settings_path)
