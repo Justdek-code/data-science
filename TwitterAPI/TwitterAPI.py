@@ -28,8 +28,10 @@ api = tweepy.API(auth)
 
 public_tweets = api.home_timeline()
 
-# for tweet in public_tweets:
-#     tweet = Tweet(tweet)
-#     tweet.print_tweet_data()
+database = DatabaseAPI(settings_path)
 
-DatabaseAPI(settings_path)
+for tweet in public_tweets:
+    tweet = Tweet(tweet)
+    database.write_tweet(tweet)
+    
+    tweet.print_tweet_data()

@@ -2,6 +2,7 @@ import sqlite3
 import json
 import mysql.connector
 from mysql.connector import Error
+from Tweet import Tweet
 
 class DatabaseAPI():
 
@@ -65,8 +66,8 @@ class DatabaseAPI():
                 likes INT NOT NULL,
                 retweets INT NOT NULL,
                 PRIMARY KEY (tweet_id)
-            );
-            """
+            );"""
+
         try:
             self.cursor.execute(create_table_query)
             print("table tweets created successfully")
@@ -74,5 +75,16 @@ class DatabaseAPI():
             print(f"The error '{e}' occurred")
         
 
-    def write_tweet(self, tweet):
-        pass
+    def write_tweet(self, tweet:Tweet):
+        insert_tweet_query = f"""
+            INSERT INTO tweets (tweet_text, publisher_name, datetime, likes, retweets)
+            VALUES ("{tweet.content}", "{tweet.publisher_name}", "{tweet.date}", 
+                {tweet.likes_count}, {tweet.retweets_count});"""
+
+        try:
+            self.cursor.execute(insert_tweet_query)
+            print("tweet is successfully inserted")
+        except Error as e:
+            print(f"The error '{e}' occurred")
+        
+        self.connection.commit()
