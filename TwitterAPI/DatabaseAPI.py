@@ -65,6 +65,7 @@ class DatabaseAPI():
                 datetime DATETIME NOT NULL,
                 likes INT NOT NULL,
                 retweets INT NOT NULL,
+                hashtags TEXT DEFAULT NULL,
                 PRIMARY KEY (tweet_id)
             );"""
 
@@ -73,13 +74,13 @@ class DatabaseAPI():
             print("table tweets created successfully")
         except Error as e:
             print(f"The error '{e}' occurred")
-        
+
 
     def write_tweet(self, tweet:Tweet):
         insert_tweet_query = f"""
-            INSERT INTO tweets (tweet_text, publisher_name, datetime, likes, retweets)
+            INSERT INTO tweets (tweet_text, publisher_name, datetime, likes, retweets, hashtags)
             VALUES ("{tweet.content}", "{tweet.publisher_name}", "{tweet.date}", 
-                {tweet.likes_count}, {tweet.retweets_count});"""
+                {tweet.likes_count}, {tweet.retweets_count}, "{str(tweet.hashtags)}");"""
 
         try:
             self.cursor.execute(insert_tweet_query)

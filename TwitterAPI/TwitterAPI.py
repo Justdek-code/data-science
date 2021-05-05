@@ -3,6 +3,7 @@ import json
 import os
 from Tweet import Tweet
 from DatabaseAPI import DatabaseAPI
+from unidecode import unidecode
 
 working_directory = os.getcwd()
 
@@ -26,12 +27,12 @@ auth.set_access_token(TOKEN, TOKEN_SECRET)
 
 api = tweepy.API(auth)
 
-public_tweets = api.home_timeline()
+public_tweets = api.home_timeline(count=50)
 
 database = DatabaseAPI(settings_path)
 
 for tweet in public_tweets:
     tweet = Tweet(tweet)
     database.write_tweet(tweet)
-    
+
     tweet.print_tweet_data()
