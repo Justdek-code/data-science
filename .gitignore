@@ -1,3 +1,7 @@
 *ipynb_checkpoints
 *settings.json
 *__pycache__
+*.vscode
+*files.json
+*cz_binance_data.csv
+*cyptocurrency_dictionary.json

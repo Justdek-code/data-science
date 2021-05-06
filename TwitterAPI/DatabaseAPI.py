@@ -59,7 +59,8 @@ class DatabaseAPI():
     def create_table_tweets(self):
         create_table_query = """
             CREATE TABLE IF NOT EXISTS tweets (
-                tweet_id INT NOT NULL AUTO_INCREMENT,
+                tweet_id VARCHAR(25) NOT NULL,
+                publisher_id TEXT NOT NULL,
                 tweet_text VARCHAR(350) NOT NULL,
                 publisher_name VARCHAR(30) NOT NULL,
                 datetime DATETIME NOT NULL,
@@ -78,9 +79,9 @@ class DatabaseAPI():
 
     def write_tweet(self, tweet:Tweet):
         insert_tweet_query = f"""
-            INSERT INTO tweets (tweet_text, publisher_name, datetime, likes, retweets, hashtags)
-            VALUES ("{tweet.content}", "{tweet.publisher_name}", "{tweet.date}", 
-                {tweet.likes_count}, {tweet.retweets_count}, "{str(tweet.hashtags)}");"""
+            INSERT INTO tweets (tweet_id, tweet_text, publisher_name, datetime, likes, retweets, hashtags, publisher_id)
+            VALUES ("{tweet.id_str}", "{tweet.content}", "{tweet.publisher_name}", "{tweet.date}", 
+                {tweet.likes_count}, {tweet.retweets_count}, "{str(tweet.hashtags)}", "{tweet.publisher_id}");"""
 
         try:
             self.cursor.execute(insert_tweet_query)

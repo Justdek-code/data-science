@@ -3,7 +3,6 @@ import json
 import os
 from Tweet import Tweet
 from DatabaseAPI import DatabaseAPI
-from unidecode import unidecode
 
 working_directory = os.getcwd()
 
@@ -31,8 +30,37 @@ public_tweets = api.home_timeline(count=50)
 
 database = DatabaseAPI(settings_path)
 
-for tweet in public_tweets:
+# for tweet in public_tweets:
+#     tweet = Tweet(tweet)
+#     #database.write_tweet(tweet)
+#     tweet.print_tweet_data()
+
+userID = 'cz_binance'
+
+tweets = api.user_timeline(screen_name=userID, 
+    count=200,
+    include_rts = False,
+    tweet_mode = 'extended'
+  )
+
+all_tweets = []
+all_tweets.extend(tweets)
+oldest_id = tweets[-1].id
+while True:
+  tweets = api.user_timeline(screen_name=userID, 
+      count=200,
+      include_rts = False,
+      max_id = oldest_id - 1,
+      tweet_mode = 'extended'
+    )
+
+  for tweet in tweets:
     tweet = Tweet(tweet)
     database.write_tweet(tweet)
 
-    tweet.print_tweet_data()
+  if len(tweets) == 0:
+    break
+
+  oldest_id = tweets[-1].id
+  all_tweets.extend(tweets)
+  print('N of tweets downloaded till now {}'.format(len(all_tweets)))
