@@ -35,7 +35,7 @@ database = DatabaseAPI(settings_path)
 #     #database.write_tweet(tweet)
 #     tweet.print_tweet_data()
 
-userID = 'cz_binance'
+userID = 'elonmusk'
 
 tweets = api.user_timeline(screen_name=userID, 
     count=200,
