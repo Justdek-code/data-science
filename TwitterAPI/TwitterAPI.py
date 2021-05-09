@@ -64,3 +64,6 @@ while True:
   oldest_id = tweets[-1].id
   all_tweets.extend(tweets)
   print('N of tweets downloaded till now {}'.format(len(all_tweets)))
+
+
+database.write_to_csv('elonmusk_2.csv')

@@ -72,10 +72,24 @@ class DatabaseAPI():
 
         try:
             self.cursor.execute(create_table_query)
-            print("table tweets created successfully")
+            print("table tweets is created successfully")
         except Error as e:
             print(f"The error '{e}' occurred")
 
+    def write_to_csv(self, filename):
+        query = f"""SELECT *
+                INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/{filename}'
+                FIELDS TERMINATED BY ','
+                ENCLOSED BY '"'
+                LINES TERMINATED BY '\n'
+                FROM tweets;"""
+        
+        try:
+            self.cursor.execute(query)
+            print("csv file is successfully created")
+        except Error as e:
+            print(f"The error '{e}' occurred")
+            
 
     def write_tweet(self, tweet:Tweet):
         insert_tweet_query = f"""
